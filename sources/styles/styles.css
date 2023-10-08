@@ -18,7 +18,7 @@
 body {
     background-color: var(--white-color);
     color: var(--gray-color);
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
     overflow-x: hidden;
     font-family:var(--font-family) ;
@@ -37,7 +37,7 @@ img {
     position: fixed;
     top: 0;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1600px;
     margin: 0 auto;
     z-index: 1;
 }
@@ -171,6 +171,7 @@ main {
     margin: 10px;
 }
 select {
+    margin-right: 20px;
     padding-left: 40px;
     padding-right: 40px;
     border: 1px solid var(--gray-color);

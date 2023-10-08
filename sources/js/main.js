@@ -108,7 +108,7 @@ function handleCart (db) {
             // console.log('quiero restar');
             const id= +(event.target.closest('.cart__product').id);
             if (db.cart[id].amount===1){
-                return swal ('uno, es la cantidad minima que puedes comprar')    
+                return alert ('uno, es la cantidad minima que puedes comprar')    
             }
             db.cart[id].amount--;
         }
@@ -116,38 +116,27 @@ function handleCart (db) {
             // console.log('quiero sumar');
             const id= +(event.target.closest('.cart__product').id);
             if (db.cart[id].amount===db.cart[id].quantity) {
-                return swal('el producto no se encuentra en existencia')    
+                return alert('el producto no se encuentra en existencia')    
             }
             db.cart[id].amount++;
         } 
         if (event.target.classList.contains('trash')){
             // console.log('quiero borrar');
             const id= +(event.target.closest('.cart__product').id);
-            const response={
-                text: "Seguro que desea eliminar el producto?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }
-            swal(response)
-            .then ((result) => {
-               if (!result) {
-                return ; 
+            const response= confirm('esta seguro que desea retirar el producto?');
+                if (response) {
+                delete db.cart[id];
                 }
                 else {
-                    delete db.cart[id];   
-                }
-                localStorage.setItem('cart', JSON.stringify(db.cart));    
-            })
-           
+                    return;   
+            }
         }
-        printCart(db.cart);
-        printTotals(db); 
+    localStorage.setItem('cart', JSON.stringify(db.cart));
+    printCart(db.cart);
+    printTotals(db); 
     })
-     
-       
 }
- function printTotals(db) {
+function printTotals(db) {
     const cartTotal=document.querySelector('.cart__totals div');
     let objects=0
     let totals= 0
