@@ -123,32 +123,33 @@ function handleCart (db) {
         if (event.target.classList.contains('trash')){
             // console.log('quiero borrar');
             const id= +(event.target.closest('.cart__product').id);
-            swal({
+            const response={
                 text: "Seguro que desea eliminar el producto?",
                 icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then ((response) => {
-                if (!response) {
-                    return;
-                    }
+                showCancelButton: true,
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar",
+            }
+            swal(response)
+            .then ((result) => {
+               if (!result.value) {
+                    return; 
+                }
                 else {
                     delete db.cart[id];
                 }
-                localStorage.setItem('cart', JSON.stringify(db.cart));
-                printCart(db.cart);
-                printTotals(db);
             })
+            localStorage.setItem('cart', JSON.stringify(db.cart));       
         }
+    printCart(db.cart);
+    printTotals(db); 
     })
 }
-function printTotals(db) {
+ function printTotals(db) {
     const cartTotal=document.querySelector('.cart__totals div');
     let objects=0
     let totals= 0
     for (const key in db.cart) {
-        console.log(db.cart[key]);
         const{price, amount}= db.cart[key];
         objects+= amount;
         totals+= price*amount;
