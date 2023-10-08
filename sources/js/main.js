@@ -106,7 +106,7 @@ function handleCart (db) {
     cart.addEventListener('click', (event) => {
         if (event.target.classList.contains('less')) {
             // console.log('quiero restar');
-            const id= (event.target.closest('.cart__product').id);
+            const id= +(event.target.closest('.cart__product').id);
             if (db.cart[id].amount===1){
                 return swal ('uno, es la cantidad minima que puedes comprar')    
             }
@@ -114,7 +114,7 @@ function handleCart (db) {
         }
         if (event.target.classList.contains('plus')) {
             // console.log('quiero sumar');
-            const id= (event.target.closest('.cart__product').id);
+            const id= +(event.target.closest('.cart__product').id);
             if (db.cart[id].amount===db.cart[id].quantity) {
                 return swal('el producto no se encuentra en existencia')    
             }
@@ -126,24 +126,26 @@ function handleCart (db) {
             const response={
                 text: "Seguro que desea eliminar el producto?",
                 icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Sí, eliminar",
-                cancelButtonText: "Cancelar",
+                buttons: true,
+                dangerMode: true,
             }
             swal(response)
             .then ((result) => {
-               if (!result.value) {
-                    return; 
+               if (!result) {
+                return ; 
                 }
                 else {
-                    delete db.cart[id];
+                    delete db.cart[id];   
                 }
+                localStorage.setItem('cart', JSON.stringify(db.cart));    
             })
-            localStorage.setItem('cart', JSON.stringify(db.cart));       
+           
         }
-    printCart(db.cart);
-    printTotals(db); 
+        printCart(db.cart);
+        printTotals(db); 
     })
+     
+       
 }
  function printTotals(db) {
     const cartTotal=document.querySelector('.cart__totals div');
@@ -168,7 +170,7 @@ async function main() {
     printCart(db.cart);
     handleCart(db);
     printTotals(db)
-}
+}   
 main();
 
 
