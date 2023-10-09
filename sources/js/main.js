@@ -17,15 +17,15 @@ async function dataBase () {
     }
     return(db)
 }
-function handels () {
-    const btn = document.querySelector('.filter__btn');
-    const list= document.querySelector('.filter__list');
-    list.addEventListener('click', function() {
-        list.classList.remove('active') })
-    btn.addEventListener('click', function(){
-        list.classList.toggle('active');
-    });
-}
+// function handels () {
+//     const btn = document.querySelector('.filter__btn');
+//     const list= document.querySelector('.filter__list');
+//     list.addEventListener('click', function() {
+//         list.classList.remove('active') })
+//     btn.addEventListener('click', function(){
+//         list.classList.toggle('active');
+//     });
+// }
 function cartHandles () {
 const btn= document.querySelector(".cart__btn");
 const cartModal= document.querySelector(".cart__modal");
@@ -180,29 +180,31 @@ function handlesTotals(db) {
     }) 
 }
 function filterProducts(products) {
-    const list= document.querySelectorAll('.filter__list li')
-        list[0].addEventListener('click', ()=> {
-           printProducts(products);
-        })
-        list[1].addEventListener('click', ()=> {
-            const shirts= products.filter(element=>(element.category==='shirt'));
-            printProducts(shirts);
-        })
-        list[2].addEventListener('click', ()=> {
-            const sweaters=products.filter(element=> element.category==='sweater');
-            printProducts(sweaters);
-            
-        })
-        list[3].addEventListener('click', ()=> {
-            const hoddies=products.filter(element=> element.category==='hoddie');
-            printProducts(hoddies);
+        const list= document.querySelectorAll('.options__list')
+        list.forEach(option => {    
+            option.addEventListener('change', ()=> {
+                const selectedValue= option.value   
+                if (selectedValue==='todos') {
+                    printProducts(products);   
+                }
+                else if (selectedValue==='shirts') {
+                    const shirts = products.filter(element=>(element.category==='shirt'));
+                    printProducts(shirts);
+                }
+                else if  (selectedValue==='sweaters')  {
+                    const sweaters=products.filter(element=> element.category==='sweater');
+                    printProducts(sweaters);
+                }
+                else if  (selectedValue==='hoddies')  {
+                    const hoddies=products.filter(element=> element.category==='hoddie');
+                    printProducts(hoddies);
+                }
+            })
         })
     }
-
-
 async function main() {
     const db = await dataBase();
-    handels();
+    // handels();
     cartHandles();
     printProducts(db.products);
     addToCart(db);
