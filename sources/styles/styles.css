@@ -164,29 +164,31 @@ main {
 .filter{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding-left: 30px;
 }
 .selectModel{
     margin: 10px;
 }
-select {
+/* select {
     margin-right: 20px;
     padding-left: 40px;
     padding-right: 40px;
     border: 1px solid var(--gray-color);
-}
-/* .filter__list {
+} */
+.filter__list {
     position: absolute;
     display: flex;
     flex-direction: column;
     list-style: none;
-    top: 477px;
-    left: -100%;
-    padding-left: 40px;
+    top: 435px;
+    padding-left: 12px;
+    left: 240px;
+    transform :translateX(-1000%);
+    z-index: 20;
 }
 .filter__list.active {
-    left: 0;
+    transform: translateX(0);
     transition:none .5s linear;
 }
 .filter__list * {
@@ -201,7 +203,8 @@ select {
         height: fit-content;
         border: none;
         margin-block: auto;
-} */
+        font-size: 24px;
+}
 .products{
     display: flex;
     flex-wrap: wrap;
@@ -275,20 +278,11 @@ select {
 
 
     @media (min-width: 900px) { 
-    /* .filter__list {
-        flex-direction: row;
-        gap: 30px;
-        position: static;
+    .filter__list {
+        left: 280px;
+        transform :translateX(-1000%); 
     }
-    .filter__list * {
-        padding: 0;
-        border: none;
-        background-color: transparent;
-    } 
-    .filter__btn {
-        display: none;
-    } */
-    main{
+    main { 
         margin-left: 40px ;
         margin-right: 40px;
     }
