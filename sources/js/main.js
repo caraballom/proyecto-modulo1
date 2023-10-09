@@ -27,8 +27,12 @@ async function dataBase () {
 //     });
 // }
 function cartHandles () {
-const btn= document.querySelector(".cart__btn");
-const cartModal= document.querySelector(".cart__modal");
+    const btn= document.querySelector(".cart__btn");
+    const cartModal= document.querySelector(".cart__modal");
+    const closeCart=document.querySelector('.close__button')
+    closeCart.addEventListener('click', () => {
+        cartModal.classList.remove('active')
+})
     btn.addEventListener('click', function() {
         cartModal.classList.toggle("active")
     })

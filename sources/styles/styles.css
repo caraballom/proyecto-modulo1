@@ -142,6 +142,15 @@ img {
     padding-right: 30px;
     border: 2px solid var(--gray-color);
     font-size: 20px;
+    cursor: pointer;
+}
+.close__button{
+    padding: 10px;
+    color: var(--blue-color);
+}
+.close__button:hover{
+    cursor: pointer;
+    transform: scale(1.3)
 }
 .logo{
     margin-top: 80px;
