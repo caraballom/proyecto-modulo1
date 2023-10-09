@@ -39,7 +39,7 @@ function printProducts (products) {
         print.innerHTML= html;
         html +=`
         <div id="${id}" class="product">
-            <figure class="product__img">
+            <figure class="product__img if${quantity}">
                 <img src="${image}" alt="">
             </figure>
             <p class="product__description">
@@ -60,9 +60,12 @@ function addToCart(db) {
             if ((event.target.classList.contains('btn__add'))){
             const id= +event.target.closest('.product').id;
             const article= db.products.find(element => element.id===id);
+            if (article.quantity===0) {
+                return alert ('este articulo se encuentra agotado');
+            }
             if (article.id in db.cart) {
                 if (db.cart[id].amount===db.cart[id].quantity) {
-                    return swal ('el producto no se encuentra en existencia')}
+                    return alert ('el producto no se encuentra en existencia')}
                 db.cart[article.id].amount+=1;
             } else {
                 article.amount=1;
@@ -150,6 +153,30 @@ function printTotals(db) {
         <p><span>Total:</span> ${totals} USD</p>`;
     cartTotal.innerHTML=html;
 }
+function handlesTotals(db) {
+    const totals=document.querySelector('.cart__total__button')
+    totals.addEventListener('click', () =>{
+        if (!(Object.values(db.cart).length)) {
+            return alert ('Debes agregar productos antes de realizar una compra')
+        }
+        const response= confirm ('estas seguro de realizar esta compra?');
+        if (!response) {
+            return;
+        }
+        for (const key in db.cart) {
+            if ( db.cart[key].id===db.products[key-1].id) {
+                db.products[key-1].quantity-=db.cart[key].amount
+            }
+        }
+        db.cart={};
+        localStorage.setItem('products', JSON.stringify(db.products));
+        localStorage.setItem('cart', JSON.stringify(db.cart))
+        printProducts(db.products);
+        printCart(db.cart);
+        printTotals(db);
+        alert ('Gracias por su compra');
+    }) 
+}
 async function main() {
     const db = await dataBase();
     // handels();
@@ -159,6 +186,7 @@ async function main() {
     printCart(db.cart);
     handleCart(db);
     printTotals(db)
+    handlesTotals(db);
 }   
 main();
 

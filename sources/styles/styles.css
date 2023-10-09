@@ -219,6 +219,17 @@ select {
     max-width: 260px;
     box-shadow: 1px 1px 10px 1px var(--gray-color);
 }
+.product__img {
+    position: relative;
+}
+.product__img.if0::after{
+    position: absolute;
+    content: 'Agotado';
+    color: var(--red-color);
+    font-size: 20px;
+    top: 170px;
+    left: 50px;
+}
 .product__buttons {
     margin: 10px;
     display: flex;
