@@ -32,7 +32,7 @@ function cartHandles () {
     const closeCart=document.querySelector('.close__button')
     closeCart.addEventListener('click', () => {
         cartModal.classList.remove('active')
-})
+    })
     btn.addEventListener('click', function() {
         cartModal.classList.toggle("active")
     })
