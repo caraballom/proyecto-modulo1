@@ -17,19 +17,10 @@ async function dataBase () {
     }
     return(db)
 }
-// function handels () {
-//     const btn = document.querySelector('.filter__btn');
-//     const list= document.querySelector('.filter__list');
-//     list.addEventListener('click', function() {
-//         list.classList.remove('active') })
-//     btn.addEventListener('click', function(){
-//         list.classList.toggle('active');
-//     });
-// }
 function cartHandles () {
     const btn= document.querySelector(".cart__btn");
     const cartModal= document.querySelector(".cart__modal");
-    const closeCart=document.querySelector('.close__button')
+    const closeCart=document.querySelector('.close__button');
     closeCart.addEventListener('click', () => {
         cartModal.classList.remove('active')
     })
@@ -114,25 +105,22 @@ function handleCart (db) {
     const cart= document.querySelector('.cart__products')
     cart.addEventListener('click', (event) => {
         if (event.target.classList.contains('less')) {
-            // console.log('quiero restar');
             const id= +(event.target.closest('.cart__product').id);
             if (db.cart[id].amount===1){
-                return alert ('uno, es la cantidad minima que puedes comprar')    
+                return alert ('Uno, es la cantidad minima que puedes comprar')    
             }
             db.cart[id].amount--;
         }
         if (event.target.classList.contains('plus')) {
-            // console.log('quiero sumar');
             const id= +(event.target.closest('.cart__product').id);
             if (db.cart[id].amount===db.cart[id].quantity) {
-                return alert('el producto no se encuentra en existencia')    
+                return alert('El producto no se encuentra en existencia')    
             }
             db.cart[id].amount++;
         } 
         if (event.target.classList.contains('trash')){
-            // console.log('quiero borrar');
             const id= +(event.target.closest('.cart__product').id);
-            const response= confirm('esta seguro que desea retirar el producto?');
+            const response= confirm('¿Esta seguro que desea retirar el producto?');
                 if (response) {
                 delete db.cart[id];
                 }
@@ -147,6 +135,7 @@ function handleCart (db) {
 }
 function printTotals(db) {
     const cartTotal=document.querySelector('.cart__totals div');
+    const cartIcon=document.querySelector('.cart__btn span');
     let objects=0
     let totals= 0
     for (const key in db.cart) {
@@ -158,6 +147,7 @@ function printTotals(db) {
     <p><span>Cantidad:</span> ${objects}</p>
         <p><span>Total:</span> ${totals} USD</p>`;
     cartTotal.innerHTML=html;
+    cartIcon.innerHTML = objects;
 }
 function handlesTotals(db) {
     const totals=document.querySelector('.cart__total__button')
@@ -165,7 +155,7 @@ function handlesTotals(db) {
         if (!(Object.values(db.cart).length)) {
             return alert ('Debes agregar productos antes de realizar una compra')
         }
-        const response= confirm ('estas seguro de realizar esta compra?');
+        const response= confirm ('¿Estas seguro de realizar esta compra?');
         if (!response) {
             return;
         }
@@ -206,9 +196,41 @@ function filterProducts(products) {
             })
         })
     }
+function showDetails (products){
+        const readBtn = document.querySelector('.products');
+        const showModal = document.querySelector('.view__modal');
+        const closeModal = document.querySelector('.close__modal');
+        const contentModal= document.querySelector('.content__modal')
+        readBtn.addEventListener('click', (event)=> {
+            if (event.target.classList.contains('btn__view')) {
+                const id = +event.target.closest('.product').id
+                const article = products.find(element => element.id == id)
+                const { category, description, image, name, price, quantity} = article
+                let html = `
+                    <div class="modal__product">
+                        <figure class="modal__product__img">
+                            <img src="${image}" alt="image product">
+                        </figure>
+                        <p class="modal__product__short">
+                            <span>Categoria:</span> ${category}<br>
+                            <span>Precio:</span> $${price} USD<br>
+                            <span>Cantidad:</span> ${quantity} Units<br>
+                        </p>
+                    </div>
+                    <p class="modal__product__long">
+                        <span>Nombre:</span> ${name}<br>
+                        <span>Descripción:</span> ${description}<br>
+                    </p>`;
+                    contentModal.innerHTML = html;
+                showModal.classList.add('active')
+            }
+        })
+        closeModal.addEventListener('click', ()=>{
+            showModal.classList.remove('active')
+        })
+}
 async function main() {
     const db = await dataBase();
-    // handels();
     cartHandles();
     printProducts(db.products);
     addToCart(db);
@@ -217,6 +239,7 @@ async function main() {
     printTotals(db)
     handlesTotals(db);
     filterProducts(db.products);
+    showDetails (db.products);
 }   
 main();
 
